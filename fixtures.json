@@ -1,0 +1,218 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2023-05-04T09:43:59.158Z",
+    "user": 3,
+    "content_type": 8,
+    "object_id": "1",
+    "object_repr": "Комплектующие для ПК",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2023-05-04T09:50:01.896Z",
+    "user": 3,
+    "content_type": 7,
+    "object_id": "1",
+    "object_repr": "Видеокарта GeForce RTX 4090: Комплектующие для ПК - 160000",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2023-05-04T09:57:55.028Z",
+    "user": 3,
+    "content_type": 7,
+    "object_id": "2",
+    "object_repr": "Процессор Intel Core i9-13900: Комплектующие для ПК - 80000",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2023-05-04T10:12:58.639Z",
+    "user": 3,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "Бытовая техника",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2023-05-04T10:19:08.373Z",
+    "user": 3,
+    "content_type": 7,
+    "object_id": "3",
+    "object_repr": "Стирально-сушильная машина Haier - 170000: Бытовая техника",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2023-05-04T10:22:41.745Z",
+    "user": 3,
+    "content_type": 7,
+    "object_id": "4",
+    "object_repr": "Робот-пылесос iRobot Roomba s9+ - 100000: Бытовая техника",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$WRAKH4uNdjklVm7gbVgR16$efK4nDhii0gGSL0cQ7Ibsz3vzA/FhIqBDHb8MsDmyII=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-05-04T08:29:24.347Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$kaJVmkfmPBz26evkLcQGUq$QzE081aVORDuVU3awaIzzORkisY5T9CAI8i4z22v6/s=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "Admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-05-04T08:53:46.075Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$2grI0KQ5IkTgwOCjkfwN98$bWPWJ7FAiZAYJfPjh7yhizojmZmsj3cf4zXih4OjW9Q=",
+    "last_login": "2023-05-04T09:01:47.831Z",
+    "is_superuser": true,
+    "username": "user",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-05-04T09:01:31.501Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "dtg4dimlz6ada38r8vk8wiyhjiyvnze1",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2pBCHRCX7nsGMsMMUjU0Ke3KeHfbpAvd_vfef6uI61Li2mSOI6ur6tXpdyNMT6k74AfW-6TTVJd5JL0r-qBNDxPL63a4fwcFW9lq1-VA3TmQJYBgwYTELOACW58YTG_IXrJFQvBWPFLaCnY5g2PxOajPF-IhOHM:1puUqR:7wNsQ29PWbehf45l0ufyHKnujOlyKZmBiErcRM7AyQo",
+    "expire_date": "2023-05-18T09:01:47.832Z"
+  }
+},
+{
+  "model": "catalog_app.category",
+  "pk": 1,
+  "fields": {
+    "name": "Комплектующие для ПК",
+    "description": "Органы жизнедеятельности для вашего любимого компьютера ;-)"
+  }
+},
+{
+  "model": "catalog_app.category",
+  "pk": 2,
+  "fields": {
+    "name": "Бытовая техника",
+    "description": "Вся лучшая техника для вашего дома"
+  }
+},
+{
+  "model": "catalog_app.category",
+  "pk": 3,
+  "fields": {
+    "name": "Смартфоны",
+    "description": "Самые сочные мобасики для вас!"
+  }
+},
+{
+  "model": "catalog_app.product",
+  "pk": 1,
+  "fields": {
+    "name": "Видеокарта GeForce RTX 4090",
+    "description": "Лучшая видюшечка для вашего малыша!",
+    "image": "products/videokarta_asus_geforce_rtx_4090_rog_strix_gaming_oc_24g_2352915_8.jpg",
+    "category": 1,
+    "price": 160000,
+    "created_date": "2023-05-04T09:49:51Z",
+    "changed_date": "2023-05-04T09:49:59Z"
+  }
+},
+{
+  "model": "catalog_app.product",
+  "pk": 2,
+  "fields": {
+    "name": "Процессор Intel Core i9-13900",
+    "description": "Лучший процессор для вашего малыша ;-)",
+    "image": "products/c75f48407c27f9684c71259f8c142bcc4d73cafc131f07f089ed1e8371ce5b5e.jpg",
+    "category": 1,
+    "price": 80000,
+    "created_date": "2023-05-04T09:57:49Z",
+    "changed_date": "2023-05-04T09:57:53Z"
+  }
+},
+{
+  "model": "catalog_app.product",
+  "pk": 3,
+  "fields": {
+    "name": "Стирально-сушильная машина Haier",
+    "description": "Не одна ваша вещь не выйдет от туда с грязью/пятнами ;-)",
+    "image": "products/7c122ae182ec97a5ae275ac33a7508ad2304f7a2a2171c1496503ff2529a63aa.jpg",
+    "category": 2,
+    "price": 170000,
+    "created_date": "2023-05-04T10:19:05Z",
+    "changed_date": "2023-05-04T10:19:07Z"
+  }
+},
+{
+  "model": "catalog_app.product",
+  "pk": 4,
+  "fields": {
+    "name": "Робот-пылесос iRobot Roomba s9+",
+    "description": "Ни один кожаный \"убл*док\" не прошмыгнет мимо него! ;-)",
+    "image": "products/c7778fcf982b8612c48da836b8d4dc9a.jpg",
+    "category": 2,
+    "price": 100000,
+    "created_date": "2023-05-04T10:22:39Z",
+    "changed_date": "2023-05-04T10:22:40Z"
+  }
+}
+]
