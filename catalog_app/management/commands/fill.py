@@ -1,5 +1,3 @@
-import json
-
 from django.core.management import BaseCommand, call_command
 
 from catalog_app.models import Category, Product

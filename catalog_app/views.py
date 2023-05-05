@@ -3,9 +3,6 @@ from django.shortcuts import render
 from catalog_app.models import Product, Contact
 
 
-# Create your views here.
-
-
 def home(request):
     latest_products = Product.objects.order_by('-created_date')[:5]
     for product in latest_products:
