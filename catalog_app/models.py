@@ -36,5 +36,15 @@ class Product(models.Model):
         ordering = ('name',)
 
 
+class Contact(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Имя пользователя')
+    phone = models.CharField(max_length=20, verbose_name='Номер телефона')
+    message = models.TextField(verbose_name='Сообщение')
 
+    def __str__(self):
+        return f'{self.name} - {self.phone}'
 
+    class Meta:
+        verbose_name = 'контакт'
+        verbose_name_plural = 'контакты'
+        ordering = ('name',)
