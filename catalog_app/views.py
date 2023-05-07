@@ -1,13 +1,26 @@
 from django.shortcuts import render
 
-from catalog_app.models import Product, Contact
+from catalog_app.models import Product, Contact, Category
 
 
 def home(request):
     latest_products = Product.objects.order_by('-created_date')[:5]
-    for product in latest_products:
-        print(product.name)
-    return render(request, 'catalog_app/home.html', {'latest_products': latest_products})
+    for products in latest_products:
+        print(products.name)
+    context = {
+        'object_list': Product.objects.all(),
+        'category_list': Category.objects.all()
+    }
+    return render(request, 'catalog_app/home.html', context)
+
+
+def product(request, pk):
+    product_item = Product.objects.get(pk=pk)
+    context = {
+        'object': product_item,
+        'title': product_item.name
+    }
+    return render(request, 'catalog_app/product.html', context)
 
 
 def contacts(request):

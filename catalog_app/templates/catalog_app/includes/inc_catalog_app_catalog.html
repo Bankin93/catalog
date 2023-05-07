@@ -1,0 +1,16 @@
+{% load tags %}
+<div class="col-md-6">
+    <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+            <strong class="d-inline-block mb-2 text-primary">{{object.category}}</strong>
+            <h3 class="mb-0">
+            <a class="text-dark" href="#">{{object.name}}</a>
+            </h3>
+            <div class="mb-1 text-muted">{{object.changed_date | date}}</div>
+            <p class="card-text mb-auto">{{object.description | truncatechars:100}}</p>
+            <h1 class="card-title pricing-card-title">{{ object.price }} руб.</h1>
+            <a href="{% url 'catalog_app:product' object.pk %}">Подробнее</a>
+        </div>
+        <img class="card-img-right flex-auto d-none d-md-block" src="{% mediapath object.image %}" alt="Card image cap" width="250" height="250">
+    </div>
+</div>
