@@ -49,7 +49,7 @@ class RecordDetailView(DetailView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
         obj.views_count += 1
-        if obj.views_count == 3:
+        if obj.views_count == 100:
             send_register_mail(obj, settings.EMAIL_HOST_USER)
         obj.save()
         return obj
