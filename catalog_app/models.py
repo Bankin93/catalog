@@ -1,5 +1,7 @@
 from django.db import models
-
+from transliterate import translit
+from django.urls import reverse
+from django.utils.text import slugify
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -48,3 +50,33 @@ class Contact(models.Model):
         verbose_name = 'контакт'
         verbose_name_plural = 'контакты'
         ordering = ('name',)
+
+
+class Record(models.Model):
+    title = models.CharField(max_length=150, verbose_name='Заголовок')
+    slug = models.SlugField(max_length=150, unique=True,  verbose_name='Slug')
+    content = models.CharField(max_length=500, verbose_name='Содержимое')
+    preview = models.ImageField(upload_to='records/', **NULLABLE, verbose_name='Превью (изображение)')
+    created_date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
+    published = models.BooleanField(default=False, verbose_name='Признак публикации')
+    views_count = models.IntegerField(default=0, verbose_name='Количество просмотров')
+
+    class Meta:
+        verbose_name = 'запись'
+        verbose_name_plural = 'записи'
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            transliterated_title = translit(self.title, 'ru', reversed=True)
+            self.slug = slugify(transliterated_title, allow_unicode=True)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('catalog_app:record_detail', kwargs={'slug': self.slug})
+
+    def toggle_published(self):
+        self.published = not self.published
+        self.save()

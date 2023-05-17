@@ -1,0 +1,63 @@
+{% extends 'catalog_app/base.html' %}
+
+{% block content %}
+    {% load tags %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                {{ object.title }}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ object.content }}</h5>
+                <img src="{% mediapath object.preview %}" class="card-img-top mx-auto d-block" alt=""
+                     style="width: 300px; height: 300px;">
+                <p class="card-text">Просмотры: {{ object.views_count }}</p>
+                {% if perms.app.change_record %}
+                    <a href="{% url 'catalog_app:update_record' object.slug %}" class="btn btn-warning">Изменить
+                        запись</a>
+                {% endif %}
+                {% if perms.app.delete_record %}
+                    <a href="{% url 'catalog_app:delete_record' object.slug %}" class="btn btn-danger">Удалить
+                        запись</a>
+                {% endif %}
+                <br><br>
+                <a href="{% url 'catalog_app:record_list' %}" class="btn btn-secondary">Все записи</a>
+                <a href="{% url 'catalog_app:toggle_activity' object.slug %}" class="btn btn-outline-danger">Снять с
+                    публикации</a>
+            </div>
+            <div class="card-footer text-muted">
+                <p class="card-text">
+                    Создана: {{ object.created_date }}<br>
+                    Опубликована: {{ object.published }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .card {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            font-size: 24px;
+            background-color: #eee;
+            font-weight: bold;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .card-text {
+            font-size: 18px;
+        }
+
+        .btn {
+            margin-top: 15px;
+        }
+    </style>
+{% endblock %}

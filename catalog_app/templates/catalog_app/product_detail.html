@@ -1,0 +1,35 @@
+{% extends 'catalog_app/base.html' %}
+
+{% block content %}
+    {% load tags %}
+    <div class="container">
+        <div class="card text-center">
+            <div class="card-header">
+                <h1 class="card-title mb-0">{{ object.name }}</h1>
+                <small class="text-muted">{{ object.category }}</small>
+            </div>
+            <img class="card-img-top mx-auto mt-3" src="{% mediapath object.image %}" alt="Card image cap"
+                 style="width: 300px; height: 300px;">
+            <div class="card-body">
+                <p class="lead">{{ object.description }}</p>
+                <h4 class="card-title">{{ object.price }} руб.</h4>
+                <a href="#" class="btn btn-primary">Купить</a>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">{{ object.changed_date | date }}</small>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .card-header {
+            background-color: #f8f9fa;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+        }
+    </style>
+{% endblock %}
+
+

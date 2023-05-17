@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog_app.models import Category, Product, Contact
+from catalog_app.models import Category, Product, Contact, Record
 
 
 @admin.register(Category)
@@ -19,3 +19,16 @@ class ProductAdmin(admin.ModelAdmin):
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'phone')
     search_fields = ('name', 'phone')
+
+
+@admin.register(Record)
+class RecordAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'slug', 'content', 'preview', 'published')
+    prepopulated_fields = {"slug": ("title",)}
+
+    def republish(self, request, queryset):
+        queryset.update(published=True)
+        self.message_user(request, "Выбранные записи были переизданы")
+
+    republish.short_description = "Повторная публикация выбранных записей"
+    actions = [republish]

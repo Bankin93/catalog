@@ -1,0 +1,46 @@
+{% extends 'catalog_app/base.html' %}
+
+{% block content %}
+    {% load tags %}
+    <div class="container">
+        <h1 class="text-center">Список записей</h1>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="text-align: center">ID</th>
+                <th scope="col" style="text-align: center">Заголовок</th>
+                <th scope="col" style="text-align: center">Содержание</th>
+                <th scope="col" style="text-align: center">Превью</th>
+                <th scope="col" style="text-align: center">Просмотры</th>
+                 <th scope="col" style="text-align: center"></th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-divider-primary">
+            {% for object in object_list %}
+                {% if object.published %}
+                    <tr>
+                        <th scope="row">{{ object.pk }}</th>
+                        <td>{{ object.title }}</td>
+                        <td>{{ object.content|truncatechars:100 }}</td>
+                        <td>
+                            <img src="{% mediapath object.preview %}" class="rounded mx-auto d-block" alt=""
+                                 height="100">
+                        </td>
+                        <td style="text-align: center">{{ object.views_count }}</td>
+                        <td>
+                            <a href="{% url 'catalog_app:record_detail' object.slug %}" class="btn btn-info btn-sm">Перейти
+                                к записи</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="container" style="text-align: center">
+            <a href="{% url 'catalog_app:create_record' %}" class="btn btn-outline-secondary btn-lg my-3"
+               style="border-radius: 25px; padding: 10px 25px; font-size: 20px; font-weight: bold;">
+                Создать запись
+            </a>
+        </div>
+    </div>
+{% endblock %}
