@@ -80,3 +80,17 @@ class Record(models.Model):
     def toggle_published(self):
         self.published = not self.published
         self.save()
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Продукт')
+    version_number = models.CharField(max_length=20, verbose_name='Номер версии')
+    name = models.CharField(max_length=150, verbose_name='Название версии')
+    is_active = models.BooleanField(verbose_name='Признак текущей версии')
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
+
+    def __str__(self):
+        return self.name

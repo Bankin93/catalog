@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog_app.models import Category, Product, Contact, Record
+from catalog_app.models import Category, Product, Contact, Record, Version
 
 
 @admin.register(Category)
@@ -32,3 +32,9 @@ class RecordAdmin(admin.ModelAdmin):
 
     republish.short_description = "Повторная публикация выбранных записей"
     actions = [republish]
+
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'version_number', 'name', 'is_active',)
+

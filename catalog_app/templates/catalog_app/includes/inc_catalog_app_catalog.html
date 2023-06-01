@@ -9,6 +9,14 @@
             <div class="mb-1 text-muted">{{ object.changed_date | date }}</div>
             <p class="card-text mb-auto">{{ object.description | truncatechars:100 }}</p>
             <h1 class="card-title pricing-card-title">{{ object.price }} руб.</h1>
+            <td>
+                {% for ver in object.version_set.all %}
+                    {% if ver.is_active %}
+                        <div><strong>Активная версия:</strong> {{ ver.name }} - версия {{ ver.version_number }}</div>
+                    {% endif %}
+                {% endfor %}
+
+            </td>
             <a href="{% url 'catalog_app:product_detail' object.pk %}">Подробнее</a>
         </div>
         <img class="card-img-right flex-auto d-none d-md-block" src="{% mediapath object.image %}" alt="Card image cap"
