@@ -16,8 +16,10 @@
                 <a href="#" class="btn btn-primary">Купить</a>
                 <a href="{% url 'catalog_app:product_list' %}" class="btn btn-info">Каталог товаров</a>
             <br><br>
+                {% if user.authenticated %}
                 <a href="{% url 'catalog_app:product_update' object.pk %}" class="btn btn-outline-warning">Изменить продукт</a>
                 <a href="{% url 'catalog_app:product_delete' object.pk %}" class="btn btn-outline-danger">Удалить продукт</a>
+                {% endif %}
             </div>
             <div class="card-footer">
                 <small class="text-muted">{{ object.changed_date | date }}</small>

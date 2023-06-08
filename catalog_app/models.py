@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from transliterate import translit
 from django.urls import reverse
@@ -24,6 +25,7 @@ class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание')
     image = models.ImageField(upload_to='products/', verbose_name='Изображение (превью)', **NULLABLE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     price = models.IntegerField(verbose_name='Цена за покупку')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
