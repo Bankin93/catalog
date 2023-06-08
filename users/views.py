@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, LoginView, \
     PasswordResetCompleteView
 from django.core.mail import send_mail
@@ -12,7 +13,7 @@ from users.forms import CustomUserChangeForm, CustomUserRegisterForm, CustomAuth
 from users.models import User
 
 
-class ProfileUpdateView(UpdateView):
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = CustomUserChangeForm
     success_url = reverse_lazy('catalog_app:product_list')
@@ -52,7 +53,7 @@ def verify_account(request, user_pk):
 class CustomLoginView(LoginView):
     form_class = CustomAuthenticationForm
     template_name = 'users/login.html'
-    success_url = reverse_lazy('catalog_app:product_list')
+    success_url = reverse_lazy('users:login')
 
 
 class CustomPasswordResetView(PasswordResetView):

@@ -42,3 +42,15 @@ class VersionForm(FormStyleMixin, forms.ModelForm):
                 id=self.instance.id).exists():
             raise forms.ValidationError('Может существовать только одна активная версия.')
         return cleaned_data
+
+
+class ProductDescriptionForm(ProductForm):
+    class Meta:
+        model = Product
+        fields = ('description', )
+
+
+class ProductCategoryForm(ProductForm):
+    class Meta:
+        model = Product
+        fields = ('category',)

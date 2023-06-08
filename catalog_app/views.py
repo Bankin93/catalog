@@ -1,10 +1,13 @@
 from django.conf import settings
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from catalog_app.forms import ProductForm, VersionForm
+from catalog_app.forms import ProductForm, VersionForm, ProductDescriptionForm, ProductCategoryForm
 from catalog_app.models import Product, Contact, Category, Record, Version
 from catalog_app.services import send_register_mail
 
@@ -17,6 +20,19 @@ class ProductListView(ListView):
         context['category_list'] = Category.objects.all()
         return context
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.has_perm('catalog_app.set_published_product'):
+            return queryset
+        return queryset.filter(is_published=True)
+
+
+@permission_required('catalog_app.set_published_product')
+def change_is_published(request, pk):
+    product_item = get_object_or_404(Product, pk=pk)
+    product_item.toggle_is_published()
+    return redirect(reverse('catalog_app:product_detail', args=[product_item.pk]))
+
 
 class ProductDetailView(DetailView):
     model = Product
@@ -26,8 +42,14 @@ class ProductDetailView(DetailView):
         context['title'] = self.object.name
         return context
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.is_published or self.request.user.has_perm('catalog_app:change_description_product'):
+            return self.object
+        raise HttpResponseForbidden
 
-class ProductCreateView(CreateView):
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog_app:product_list')
@@ -39,7 +61,7 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog_app:product_list')
@@ -66,9 +88,38 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDescriptionUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductDescriptionForm
+    template_name = 'catalog_app/product_description.html'
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse('catalog_app:product_detail', kwargs={'pk': pk})
+
+    def test_func(self):
+        return self.request.user.has_perm(perm='catalog_app.change_description_product')
+
+
+class ProductCategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductCategoryForm
+    template_name = 'catalog_app/product_category.html'
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse('catalog_app:product_detail', kwargs={'pk': pk})
+
+    def test_func(self):
+        return self.request.user.has_perm(perm='catalog_app.change_product_category')
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog_app:product_list')
+
+    def test_func(self):
+        return self.request.user.has_perm(perm='catalog_app.product_delete')
 
 
 class RecordListView(ListView):
@@ -76,13 +127,13 @@ class RecordListView(ListView):
     queryset = Record.objects.filter(published=True)
 
 
-class RecordCreateView(CreateView):
+class RecordCreateView(LoginRequiredMixin, CreateView):
     model = Record
     fields = ('title', 'content', 'preview', 'published')
     success_url = reverse_lazy('catalog_app:record_list')
 
 
-class RecordUpdateView(UpdateView):
+class RecordUpdateView(LoginRequiredMixin, UpdateView):
     model = Record
     fields = ('title', 'slug', 'content', 'preview', 'published', 'views_count')
 
@@ -102,7 +153,7 @@ class RecordDetailView(DetailView):
         return obj
 
 
-class RecordDeleteView(DeleteView):
+class RecordDeleteView(LoginRequiredMixin, DeleteView):
     model = Record
     success_url = reverse_lazy('catalog_app:record_list')
 
@@ -113,7 +164,7 @@ def toggle_activity(request, slug):
     return redirect(reverse('catalog_app:record_detail', args=[record_item.slug]))
 
 
-class ContactCreateView(CreateView):
+class ContactCreateView(LoginRequiredMixin, CreateView):
     template_name = 'catalog_app/contacts.html'
 
     def get(self, request, *args, **kwargs):

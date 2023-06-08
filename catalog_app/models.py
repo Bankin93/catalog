@@ -28,6 +28,7 @@ class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     price = models.IntegerField(verbose_name='Цена за покупку')
+    is_published = models.BooleanField(default=False, verbose_name='Признак публикации')
     created_date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     changed_date = models.DateTimeField(auto_now=True, verbose_name='Дата последнего изменения')
 
@@ -38,6 +39,24 @@ class Product(models.Model):
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
         ordering = ('name',)
+        permissions = [
+            (
+                'set_published_product',
+                'Can publish product'
+            ),
+            (
+                'change_description_product',
+                'Can change product description'
+            ),
+            (
+                'change_product_category',
+                'Can change product category'
+            )
+        ]
+
+    def toggle_is_published(self):
+        self.is_published = not self.is_published
+        self.save()
 
 
 class Contact(models.Model):
