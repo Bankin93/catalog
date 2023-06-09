@@ -12,27 +12,34 @@
                 <img src="{% mediapath object.preview %}" class="card-img-top mx-auto d-block" alt=""
                      style="width: 300px; height: 300px;">
                 <p class="card-text">Просмотры: {{ object.views_count }}</p>
-                {% if perms.app.change_record %}
+                {% if perms.catalog_app.change_record %}
                     <a href="{% url 'catalog_app:update_record' object.slug %}" class="btn btn-warning">Изменить
                         запись</a>
                 {% endif %}
-                {% if perms.app.delete_record %}
+                {% if perms.catalog_app.delete_record %}
                     <a href="{% url 'catalog_app:delete_record' object.slug %}" class="btn btn-danger">Удалить
                         запись</a>
                 {% endif %}
                 <br><br>
                 <a href="{% url 'catalog_app:record_list' %}" class="btn btn-secondary">Все записи</a>
-                <a href="{% url 'catalog_app:toggle_activity' object.slug %}" class="btn btn-outline-danger">Снять с
-                    публикации</a>
+                {% if perms.catalog_app.set_published_record %}
+                    {% if object.published == True %}
+                        <a href="{% url 'catalog_app:toggle_activity' object.slug %}" class="btn btn-outline-danger">Снять
+                            с
+                            публикации</a>
+                    {% else %}
+                        <a href="{% url 'catalog_app:toggle_activity' object.slug %}" class="btn btn-outline-primary">Опубликовать</a>
+                    {% endif %}
+                {% endif %}
             </div>
             <div class="card-footer text-muted">
                 <p class="card-text">
                     Создана: {{ object.created_date }}<br>
-                    Опубликована: {{ object.published }}
                 </p>
             </div>
         </div>
     </div>
+
 
     <style>
         .card {

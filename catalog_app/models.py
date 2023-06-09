@@ -85,6 +85,12 @@ class Record(models.Model):
     class Meta:
         verbose_name = 'запись'
         verbose_name_plural = 'записи'
+        permissions = [
+            (
+                'set_published_record',
+                'Can publish record'
+            )
+        ]
 
     def __str__(self):
         return self.title

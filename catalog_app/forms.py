@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog_app.models import Product, Version
+from catalog_app.models import Product, Version, Record
 
 FORBIDDEN_WORDS = ('казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар')
 
@@ -54,3 +54,9 @@ class ProductCategoryForm(ProductForm):
     class Meta:
         model = Product
         fields = ('category',)
+
+
+class RecordForm(FormStyleMixin, forms.ModelForm):
+    class Meta:
+        model = Record
+        exclude = ('slug', 'views_count', )

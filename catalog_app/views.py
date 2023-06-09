@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from catalog_app.forms import ProductForm, VersionForm, ProductDescriptionForm, ProductCategoryForm
+from catalog_app.forms import ProductForm, VersionForm, ProductDescriptionForm, ProductCategoryForm, RecordForm
 from catalog_app.models import Product, Contact, Category, Record, Version
 from catalog_app.services import send_register_mail
 
@@ -124,18 +124,25 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 class RecordListView(ListView):
     model = Record
-    queryset = Record.objects.filter(published=True)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.has_perm('catalog_app.set_published_record'):
+            return queryset
+        return queryset.filter(published=True)
 
 
 class RecordCreateView(LoginRequiredMixin, CreateView):
     model = Record
-    fields = ('title', 'content', 'preview', 'published')
+    form_class = RecordForm
     success_url = reverse_lazy('catalog_app:record_list')
 
 
 class RecordUpdateView(LoginRequiredMixin, UpdateView):
     model = Record
-    fields = ('title', 'slug', 'content', 'preview', 'published', 'views_count')
+    form_class = RecordForm
+    success_url = reverse_lazy('catalog_app:record_list')
+
 
     def get_success_url(self):
         return self.object.get_absolute_url()
@@ -149,8 +156,11 @@ class RecordDetailView(DetailView):
         obj.views_count += 1
         if obj.views_count == 100:
             send_register_mail(obj, settings.EMAIL_HOST_USER)
+        if obj.published:
+            return obj
         obj.save()
         return obj
+
 
 
 class RecordDeleteView(LoginRequiredMixin, DeleteView):
@@ -158,6 +168,7 @@ class RecordDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('catalog_app:record_list')
 
 
+@permission_required('catalog_app.set_published_record')
 def toggle_activity(request, slug):
     record_item = get_object_or_404(Record, slug=slug)
     record_item.toggle_published()
