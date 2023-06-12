@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
@@ -9,7 +10,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 
 from catalog_app.forms import ProductForm, VersionForm, ProductDescriptionForm, ProductCategoryForm, RecordForm
 from catalog_app.models import Product, Contact, Category, Record, Version
-from catalog_app.services import send_register_mail
+from catalog_app.services import send_register_mail, get_cache_categories
 
 
 class ProductListView(ListView):
@@ -17,7 +18,7 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category_list'] = Category.objects.all()
+        context['category_list'] = get_cache_categories()
         return context
 
     def get_queryset(self):
@@ -25,6 +26,12 @@ class ProductListView(ListView):
         if self.request.user.has_perm('catalog_app.set_published_product'):
             return queryset
         return queryset.filter(is_published=True)
+
+
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    template_name = 'catalog_app/category_list.html'
+    queryset = get_cache_categories()
 
 
 @permission_required('catalog_app.set_published_product')

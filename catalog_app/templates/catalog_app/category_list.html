@@ -1,0 +1,31 @@
+{% extends 'catalog_app/base.html' %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Список категорий</h1>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col" style="text-align: center">ID</th>
+                <th scope="col" style="text-align: center">Название</th>
+                <th scope="col" style="text-align: center">Описание</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider table-divider-primary">
+            {% for item in object_list %}
+                <tr>
+                    <th style="text-align: center" scope="row">{{ item.pk }}</th>
+                    <td style="text-align: center">{{ item.name }}</td>
+                    <td style="text-align: center">{{ item.description|truncatechars:100 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="container" style="text-align: center">
+            <a href="{% url 'catalog_app:product_list' %}" class="btn btn-outline-secondary btn-lg my-3"
+               style="border-radius: 25px; padding: 10px 25px; font-size: 20px; font-weight: bold;">
+                Вернуться на главную
+            </a>
+
+        </div>
+    </div>
+{% endblock %}
